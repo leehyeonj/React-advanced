@@ -29,7 +29,8 @@ const Header = (props) =>{
                      <Button text="내정보"></Button>
                     <Button text="알림"></Button>
                     <Button text="로그아웃"
-                    _onClick={()=>{deleteCookie("user_id");}}></Button>
+                    _onClick={()=>{deleteCookie("user_id");
+                    }}></Button>
                 </Grid>
             </Grid>
         </React.Fragment>
