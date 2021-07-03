@@ -3,6 +3,7 @@ import {Text, Input, Grid, Button} from "../elements";
 import {getCookie, setCookie, deleteCookie} from "../shared/Cookie";
 import {useDispatch} from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
+import { emailCheck } from "../shared/common";
 
 
 const Login = (props)=>{
@@ -11,8 +12,13 @@ const Login = (props)=>{
   const [pwd, setPwd] = React.useState('');
 
   const login = ()=>{
+
     if(id ===""|| pwd === ""){
       window.alert("아이디 혹은 비밀번호가 공란입니다");
+      return;
+    }
+    if(!emailCheck(id)){
+      window.alert("이메일 형식이 맞지 않습니다");
       return;
     }
     dispatch(userActions.loginFB(id,pwd));
@@ -44,7 +50,6 @@ const Login = (props)=>{
            </Grid>
             <Button text="로그인하기" 
             _onClick={() => {
-            console.log("로그인 했어!");
             login();
           }}></Button>
             </Grid>
