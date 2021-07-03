@@ -1,7 +1,8 @@
 import {createAction, handleActions} from "redux-actions";
 import {produce} from "immer";
-import { firestore } from "../../shared/firebase";
+import { firestore, storage } from "../../shared/firebase";
 import moment from "moment";
+import { actionCreators as imageActions } from "./image";
 //actions
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
@@ -41,17 +42,36 @@ const addPostFB = (contents="")=>{
             contents: contents,
             insert_dt: moment().format("YYYY-MM-DD hh:mm:ss"),
         };
+        const _image = getState().image.preview;
+        console.log(_image);
+
+        // 동시에 업로드해도 중복값이 안생긴다.
+        const _upload = storage.ref(`images/${user_info.user_id}_${new Date().getTime()}`).putString(_image, "data_url");
+        _upload.then(snapshot=>{
+            snapshot.ref.getDownloadURL().then(url=>{
+                console.log(url);
+                return url;
+            }).then(url=>{
+                //파이어스토어에 저장하자
+                postDB.add({...user_info, ..._post, image_url:url}).then((doc)=>{
+                    // 리덕스에 추가 /모양새 맞춰서 넣어라
+                    let post = {user_info, ..._post, id: doc.id,image_url:url};
+                    dispatch(addPost(post));
+                    history.replace("/");
+
+                    dispatch(imageActions.setPreview(null));
+                }).catch((err)=>{
+                    window.alert("post 업로드 실패");
+                    console.log("post작성에 실패",err);
+                });
+            }).catch((err)=>{
+                window.alert("이미지 업로드 실패");
+                console.log("앗 이미지 업로드에 문제가있어요",err);
+            })
+        })
      
 
-        //파이어스토어에 저장하자
-        postDB.add({...user_info, ..._post}).then((doc)=>{
-            // 리덕스에 추가 /모양새 맞춰서 넣어라
-            let post = {user_info, ..._post, id: doc.id};
-            dispatch(addPost(post));
-            history.replace("/");
-        }).catch((err)=>{
-            console.log("post작성에 실패",err);
-        });
+      
     }
 }
 const getPostFB = ()=>{
