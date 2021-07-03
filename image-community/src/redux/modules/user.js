@@ -104,6 +104,15 @@ const loginCheckFB = ()=>{
         })
     }
 }
+
+const logoutFB = ()=>{
+    return function (dispatch, getState, {history}){
+        auth.signOut().then(()=>{
+            dispatch(logOut());
+            history.replace('/');
+        })
+    }
+}
 // reducer
 export default handleActions({
     // produce에 원본값을 주고 어떤 작업을 하고 싶은지 쓴다
@@ -129,6 +138,7 @@ const actionCreators = {
     signupFB,
     loginFB,
     loginCheckFB,
+    logoutFB
 };
 
 export {actionCreators};

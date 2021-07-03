@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'; //스토어에있는 애
 import { actionCreators as userActions } from '../redux/modules/user';
 import {history} from "../redux/configureStore";
 import { apiKey } from '../shared/firebase';
+import Permit from "../shared/Permit"
 
 const Header = (props) =>{
     const dispatch = useDispatch();
@@ -18,25 +19,29 @@ const Header = (props) =>{
         // 로그인했을때만 보여주는 화면
         // 쿠키가 있을때 true없으면 false
         return(
+       
             <React.Fragment>
-            <Grid is_flex padding="4px 16px">
-                <Grid>
-                    <Text margin="0px"size="24px" bold>헬로</Text>
+                <Grid is_flex padding="4px 16px">
+                    <Grid>
+                        <Text margin="0px"size="24px" bold>헬로</Text>
+                    </Grid>
+                    <Grid is_flex>
+                        <Button text="내정보"></Button>
+                        <Button text="알림"></Button>
+                        <Button text="로그아웃"
+                        _onClick={()=>{dispatch(userActions.logoutFB());
+                        }}></Button>
+                    </Grid>
                 </Grid>
-                <Grid is_flex>
-                     <Button text="내정보"></Button>
-                    <Button text="알림"></Button>
-                    <Button text="로그아웃"
-                    _onClick={()=>{dispatch(userActions.logOut({}));
-                    }}></Button>
-                </Grid>
-            </Grid>
-        </React.Fragment>
-        )
-    }
-  
+            </React.Fragment>
+   
+        
+          )
+     }
+   
     return (
         <React.Fragment>
+             
             <Grid is_flex padding="4px 16px">
                 <Grid>
                     <Text margin="0px"size="24px" bold>헬로</Text>
