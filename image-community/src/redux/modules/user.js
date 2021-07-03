@@ -18,6 +18,14 @@ const initialState ={
     is_login: false,
 };
 
+//middelware actions
+const loginAction =(user)=>{
+    return function (dispacth, getState, {history}){
+        console.log(history);
+        dispacth(logIn(user));
+        history.push('/');
+    }
+}
 // reducer
 export default handleActions({
     // produce에 원본값을 주고 어떤 작업을 하고 싶은지 쓴다
@@ -37,6 +45,7 @@ const actionCreators = {
     logIn,
     logOut,
     getUser,
+    loginAction
 };
 
 export {actionCreators};

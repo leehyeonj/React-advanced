@@ -6,7 +6,7 @@ const Header = (props) =>{
 
     const [is_login, setIsLogin] = React.useState(false);
     React.useEffect(()=>{
-        let cookie = getCookie("user_id");
+        let cookie = getCookie("is_login");
         console.log(cookie);
 
         if(cookie){
