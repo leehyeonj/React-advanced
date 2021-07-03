@@ -7,7 +7,8 @@ import { actionCreators as userActions } from "../redux/modules/user";
 
 const Login = (props)=>{
   const dispatch = useDispatch();
-  
+  const [id, setId] = React.useState('');
+  const [pwd, setPwd] = React.useState('');
   const login = ()=>{
     dispatch(userActions.loginAction({user_name: "perl"}));
   }
