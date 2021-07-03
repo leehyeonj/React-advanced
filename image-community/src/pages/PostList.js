@@ -13,7 +13,13 @@ const PostList = (props) => {
     
     // 빈배열이 들어가면 처음에 한번만 componentDidMount
     React.useEffect(()=>{
-        dispatch(postActions.getPostFB());
+        if(post_list.length === 0){
+            // 원래 list의 길이가 있으니까 새로 불러오지 않음
+            // getPost를 안해서 이미 있던 리덕스에서 새로운 게시물을 추가한거임
+            
+            dispatch(postActions.getPostFB());
+        }
+        
     },[]);
 
     return (
