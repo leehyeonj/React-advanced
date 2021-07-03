@@ -3,12 +3,18 @@ import {Grid, Text, Button} from "../elements";
 import { getCookie, deleteCookie } from '../shared/Cookie';
 import { useSelector, useDispatch } from 'react-redux'; //스토어에있는 애를 가져올 수 있는 리덕스 훅
 import { actionCreators as userActions } from '../redux/modules/user';
+import {history} from "../redux/configureStore";
+import { apiKey } from '../shared/firebase';
 
 const Header = (props) =>{
     const dispatch = useDispatch();
     const is_login = useSelector((state)=> state.user.is_login);
 
-    if(is_login){
+    const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
+    const is_session = sessionStorage.getItem(_session_key)? true : false;
+
+    
+    if(is_login && is_session){
         // 로그인했을때만 보여주는 화면
         // 쿠키가 있을때 true없으면 false
         return(
@@ -36,8 +42,8 @@ const Header = (props) =>{
                     <Text margin="0px"size="24px" bold>헬로</Text>
                 </Grid>
                 <Grid is_flex>
-                    <Button text="로그인"></Button>
-                    <Button text="회원가입"></Button>
+                    <Button text="로그인" _onClick={()=>{history.push('/login');}}></Button>
+                    <Button text="회원가입" _onClick={()=>{history.push('/signup');}}></Button>
                 </Grid>
             </Grid>
         </React.Fragment>
