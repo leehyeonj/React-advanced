@@ -6,15 +6,17 @@ import {storage} from "../../shared/firebase";
 // actions
 const UPLOADING = "UPLOADING";
 const UPLOAD_IMAGE = "UPLOAD_IMAGE";
+const SET_PREVIEW = "SET_PREVIEW";
 
 // action creators
 const uploading = createAction(UPLOADING, (uploading) => ({ uploading }));
 const uploadImage = createAction(UPLOAD_IMAGE, (image_url) => ({ image_url }));
-
+const setPreview = createAction(SET_PREVIEW, (preview)=> ({preview}));
 
 const initalState = {
     image_url:'',
     uploading:false,
+    preview: null,
 }
 
 // firebase
@@ -45,6 +47,9 @@ export default handleActions({
     }),
     [UPLOADING]: (state, action)=>produce(state, (draft)=>{
         draft.uploading = action.payload.uploading;
+    }),
+    [SET_PREVIEW]: (state, action )=> produce(state, (draft)=>{
+        draft.preview = action.payload.preview;
     })
 }, initalState);
 
@@ -53,6 +58,7 @@ export default handleActions({
 const actionCreators = {
     uploadImage,
     uploadImageFB,
+    setPreview,
 }
 
 export {actionCreators};
