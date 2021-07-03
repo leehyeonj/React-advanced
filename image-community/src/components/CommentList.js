@@ -1,27 +1,28 @@
 import React from "react";
-import { Grid, Image, Text} from "../elements";
+import {Grid, Image, Text} from "../elements";
 
-const CommentList = (props)=>{
-  
+const CommentList = () => {
+  return (
+    <React.Fragment>
+      <Grid padding="16px">
+        <CommentItem />
+        <CommentItem />
+        <CommentItem />
+        <CommentItem />
+        <CommentItem />
+        <CommentItem />
+      </Grid>
+    </React.Fragment>
+  );
+};
 
-    return(
-       <React.Fragment>
-           <Grid padding="16px">
-               <CommentItem/>
-               <CommentItem/>
-               <CommentItem/>
-               <CommentItem/>
-           </Grid>
-       </React.Fragment>
-        
-    )
-}
 export default CommentList;
 
 
-const CommentItem = (props)=>{
-    const {user_profile, user_name, user_id, post_id, insert_dt, contents} = props;
-    return(
+const CommentItem = (props) => {
+
+    const {user_profile, user_name, user_id, post_id, contents, insert_dt} = props;
+    return (
         <Grid is_flex>
             <Grid is_flex width="auto">
                 <Image shape="circle"/>
@@ -32,15 +33,14 @@ const CommentItem = (props)=>{
                 <Text margin="0px">{insert_dt}</Text>
             </Grid>
         </Grid>
-
     )
 }
 
 CommentItem.defaultProps = {
     user_profile: "",
-    user_name: "eaj",
+    user_name: "hyeonju",
     user_id: "",
     post_id: 1,
-    insert_dt: "2021-01-01 19:00:00",
-    contents: "댓글이다",
-};
+    contents: "나는 현주라고 해",
+    insert_dt: '2021-01-01 19:00:00'
+}

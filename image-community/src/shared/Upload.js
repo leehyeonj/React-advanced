@@ -1,6 +1,7 @@
-import React from 'react';
+import React from "react";
 
-const Upload = (props) =>{
+const Upload = (props) => {
+
     return (
         <React.Fragment>
             <input type="file"/>
