@@ -48,7 +48,7 @@ const getPostFB = ()=>{
             console.log(post_list);
             dispatch(setPost(post_list));
         
-        })
+        });
     }
 }
 
