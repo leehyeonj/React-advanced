@@ -6,10 +6,15 @@ import { actionCreators as imageActions } from "./image";
 //actions
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
+const EDIT_POST = "EDIT_POST";
 
 // action creators
 const setPost = createAction(SET_POST, (post_list)=>({post_list}));
 const addPost = createAction(ADD_POST, (post)=>({post}));
+const editPost = createAction(EDIT_POST, (post_id, post) => ({
+    post_id,
+    post,
+  }));
 
 
 // initialState
@@ -26,6 +31,70 @@ const initialPost = {
 };
 
 //firestore
+const editPostFB = (post_id = null, post = {}) => {
+    return function (dispatch, getState, { history }) {
+      if (!post_id) {
+        console.log("게시물 정보가 없어요!");
+        return;
+      }
+    //   지금 프리뷰를 가져온다.
+      const _image = getState().image.preview;
+    // post에 있는 id와 지금 보고 있는 게시물 아이디가 같은게 있냐
+      const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
+    //  그 포스트를 가지고 와라
+      const _post = getState().post.list[_post_idx];
+  
+      console.log(_post);
+  
+    //   db설정
+      const postDB = firestore.collection("post");
+//   이미지가 안바꼈으면
+      if (_image === _post.image_url) {
+        postDB
+          .doc(post_id)
+          .update(post)
+          .then((doc) => {
+            dispatch(editPost(post_id, { ...post }));
+            history.replace("/");
+          });
+  
+        return;
+      } else { //이미지가 바꼈으면
+        const user_id = getState().user.user.uid;
+        const _upload = storage
+          .ref(`images/${user_id}_${new Date().getTime()}`)
+          .putString(_image, "data_url");
+  
+        _upload.then((snapshot) => {
+          snapshot.ref
+            .getDownloadURL()
+            .then((url) => {
+              console.log(url);
+  
+              return url;
+            })
+            .then((url) => {
+              postDB
+                .doc(post_id)
+                .update({ ...post, image_url: url })
+                .then((doc) => {
+                  dispatch(editPost(post_id, { ...post, image_url: url }));
+                  history.replace("/");
+                });
+            })
+            .catch((err) => {
+              window.alert("앗! 이미지 업로드에 문제가 있어요!");
+              console.log("앗! 이미지 업로드에 문제가 있어요!", err);
+            });
+        });
+      }
+    };
+  };
+  
+
+
+
+
 const addPostFB = (contents="")=>{
     return function (dispatch, getState, {history}){
         // 컬렉션 선택
@@ -106,15 +175,23 @@ export default handleActions(
 
         [ADD_POST]: (state, action)=> produce(state, (draft)=>{
             draft.list.unshift(action.payload.post);
-        })
+        }),
+        [EDIT_POST]: (state, action) =>
+        produce(state, (draft) => {
+          let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+  
+          draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
+        }),
     }, initialState
 );
 
 const actionCreators = {
     setPost,
-    addPost,
-    getPostFB,
-    addPostFB,
+  addPost,
+  editPost,
+  getPostFB,
+  addPostFB,
+  editPostFB,
 }
 
 export {actionCreators};
