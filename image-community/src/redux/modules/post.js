@@ -20,6 +20,8 @@ const editPost = createAction(EDIT_POST, (post_id, post) => ({
 // initialState
 const initialState = {
     list: [],
+    paging: {start:null, next: null, size:3},
+    is_loading: false,
 };
 
 const initialPost = {
@@ -146,7 +148,9 @@ const addPostFB = (contents="")=>{
 const getPostFB = ()=>{
     return function (dispatch, getState, {history}){
         const postDB = firestore.collection("post");
-        postDB.get().then((docs)=>{
+        // 최근에 쓴 것부터 보여주기
+        let query = postDB.orderBy("insert_dt","desc").limit(2);
+        query.get().then(docs=>{
             let post_list =[];
             docs.forEach((doc)=>{
                 let _post = doc.data();
@@ -161,8 +165,10 @@ const getPostFB = ()=>{
             });
             console.log(post_list);
             dispatch(setPost(post_list));
-        
         });
+
+        return;
+       
     }
 }
 
