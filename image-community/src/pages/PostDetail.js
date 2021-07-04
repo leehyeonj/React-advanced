@@ -3,7 +3,7 @@ import Post from "../components/Post";
 import CommentList from "../components/CommentList";
 import CommentWrite from "../components/CommentWrite";
 import { useSelector, useDispatch } from "react-redux";
-
+import Permit from "../shared/Permit"
 import { actionCreators as postActions } from "../redux/modules/post";
 
 
@@ -39,7 +39,9 @@ const PostDetail = (props) => {
                 <Post {...post} is_me = {post.user_info.user_id === user_info?.uid}/>
             )}
             
+            <Permit>
             <CommentWrite post_id ={id}/>
+            </Permit>
             <CommentList post_id ={id}/>
         </React.Fragment>
     )
