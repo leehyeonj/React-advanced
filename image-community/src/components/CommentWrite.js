@@ -13,7 +13,6 @@ const CommentWrite = (props) => {
   }
 
   const write =()=>{
-    console.log(comment_text);
     dispatch(commentActions.addCommentFB(post_id, comment_text));
     setCommentText("");
 
@@ -22,7 +21,13 @@ const CommentWrite = (props) => {
     return (
       <React.Fragment>
         <Grid padding="16px" is_flex>
-          <Input _onChange={onChange} placeholder="댓글 내용을 입력해주세요 :)" value={comment_text} is_submit/>
+          <Input 
+          _onChange={onChange} 
+          placeholder="댓글 내용을 입력해주세요 :)" 
+          value={comment_text} 
+          is_submit
+          onSubmit = {write}
+          />
           <Button width="50px" margin="0px 2px 0px 2px"
           _onClick ={write}>작성</Button>
         </Grid>
