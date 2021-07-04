@@ -4,6 +4,7 @@ import { useSelector , useDispatch} from "react-redux";
 
 import Post from "../components/Post";
 import { actionCreators as postActions } from "../redux/modules/post";
+import InfinityScroll from "../shared/InfinityScroll";
 
 const PostList = (props) => {
     const dispatch = useDispatch();
@@ -27,6 +28,13 @@ const PostList = (props) => {
 
     return (
         <React.Fragment>
+          <InfinityScroll
+            callNext = {()=>{
+              dispatch(postActions.getPostFB(paging.next));
+            }}
+            is_next={paging.next? true:false}
+            loading= {is_loading}
+          >
             {/* p에는 post에 대한 모든 정보가 들어간다. */}
           {post_list.map((p, idx)=>{
               if(user_info && p.user_info.user_id === user_info.uid){
@@ -34,14 +42,8 @@ const PostList = (props) => {
               }else{
                 return <Post key={p.id} {...p} />
               }
-
-             
-             
           })}
-
-              <button onClick={()=>{
-                dispatch(postActions.getPostFB(paging.next));
-              }}>추가로드</button>
+          </InfinityScroll>
         </React.Fragment>
     )
 }
