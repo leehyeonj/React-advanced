@@ -9,8 +9,9 @@ const PostList = (props) => {
     const dispatch = useDispatch();
     const post_list = useSelector((state)=> state.post.list);
     const user_info = useSelector((state)=> state.user.user);
+    const is_loading = useSelector((state) => state.post.is_loading);
+    const paging = useSelector((state) => state.post.paging);
 
-   
     console.log(post_list);
     
     // 빈배열이 들어가면 처음에 한번만 componentDidMount
@@ -33,8 +34,14 @@ const PostList = (props) => {
               }else{
                 return <Post key={p.id} {...p} />
               }
+
+             
              
           })}
+
+              <button onClick={()=>{
+                dispatch(postActions.getPostFB(paging.next));
+              }}>추가로드</button>
         </React.Fragment>
     )
 }
