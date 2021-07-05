@@ -1,16 +1,11 @@
 import React from "react";
-import './RCA.css';
-import { Header, Calendar } from './components';
+import FullCalendar from "./pages/FullCalendar";
 
 
 function App() {
+  
   return (
-      <div className = "test-layout">
-        <div className="RCA-app-container">
-          <Header/>
-          <Calendar/>
-        </div>
-      </div>
+      <FullCalendar/>
   );
 }
 
