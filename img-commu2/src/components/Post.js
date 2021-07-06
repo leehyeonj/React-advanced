@@ -1,4 +1,5 @@
 import React from "react";
+import { Grid, Image, Text } from "../elements";
 
 const Post = (props) =>{
 
@@ -6,10 +7,23 @@ const Post = (props) =>{
 
     return (
         <React.Fragment>
-            <div>img/ nickname/ time / btn</div>
-            <div>contents</div>
-            <div>image</div>
-            <div>comment cnt</div>
+          <Grid>
+              <Grid is_flex>
+                  <Image shape="circle" src ={user_info.user_profile}></Image>
+                  <Text bold> {user_info.user_name}</Text>
+                  <Text>{insert_dt}</Text>
+
+              </Grid>
+              <Grid padding="16px">
+                  <Text>{contents}</Text>
+              </Grid>
+              <Grid>
+                  <Image shape="rectangle" src={image_url}></Image>
+              </Grid>
+              <Grid padding="16px">
+                <Text bold>댓글 {comment_cnt}개</Text>
+              </Grid>
+          </Grid>
 
         </React.Fragment>
     )

@@ -1,12 +1,18 @@
 import React from "react";
 import PostList from "../pages/PostList";
 import { BrowserRouter, Route } from "react-router-dom";
+import {Grid} from "../elements";
+
 
 function App() {
   return (
-    <div className="App">
-      <Route path="/" exact component={PostList} />
-    </div>
+    <React.Fragment>
+      <Grid>
+        <BrowserRouter>
+         <Route path="/" exact component={PostList} />
+        </BrowserRouter>
+      </Grid>
+    </React.Fragment>
   );
 }
 
