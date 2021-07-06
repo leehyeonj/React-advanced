@@ -1,15 +1,22 @@
 import React from "react";
-import PostList from "../pages/PostList";
-import { BrowserRouter, Route } from "react-router-dom";
-import {Grid} from "../elements";
+import {BrowserRouter, Route} from "react-router-dom";
+import { Login, PostList, Signup } from "../pages";
 
+import Header from "../components/Header";
+import {Grid} from "../elements";
 
 function App() {
   return (
     <React.Fragment>
+      <BrowserRouter>
+        <Route path="/" exact component={PostList}/>
+      </BrowserRouter>
       <Grid>
+        <Header></Header>
         <BrowserRouter>
-         <Route path="/" exact component={PostList} />
+          <Route path="/" exact component={PostList} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={Signup}/>
         </BrowserRouter>
       </Grid>
     </React.Fragment>
